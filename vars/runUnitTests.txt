@@ -1,0 +1,10 @@
+<p>
+  <code>runUnitTests</code> runs the project's unit tests for a supported build
+  tool (<code>gradle</code>, <code>maven</code> or <code>npm</code>) and always
+  publishes the JUnit XML results, even on failure.
+</p>
+
+<p><strong>Usage</strong></p>
+<pre>
+runUnitTests(tool: 'gradle', coverage: true)
+</pre>

@@ -1,10 +1,71 @@
-
 name: CI
+
 on:
   push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  build:
+  groovy-lint:
+    name: Groovy Lint
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - run: echo Build successful
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install npm-groovy-lint
+        run: npm install -g npm-groovy-lint
+      - name: Lint vars and src
+        run: |
+          npm-groovy-lint --failon error \
+            "vars/**/*.groovy" \
+            "src/**/*.groovy" \
+            "test/**/*.groovy"
+
+  structure:
+    name: Library Structure
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify shared-library layout
+        run: |
+          set -e
+          test -d vars || { echo "missing vars/ directory"; exit 1; }
+          test -d src/org/acme/jenkins || { echo "missing src package"; exit 1; }
+          test -d resources/org/acme/jenkins || { echo "missing resources"; exit 1; }
+          echo "Checking every vars/*.groovy has a matching .txt doc..."
+          missing=0
+          for f in vars/*.groovy; do
+            doc="${f%.groovy}.txt"
+            if [ ! -f "$doc" ]; then
+              echo "::error file=$f::missing documentation file $doc"
+              missing=1
+            fi
+          done
+          exit $missing
+
+  yaml-lint:
+    name: YAML Lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install yamllint
+        run: python -m pip install --upgrade yamllint
+      - name: Lint YAML
+        run: yamllint -d relaxed .github .pre-commit-config.yaml

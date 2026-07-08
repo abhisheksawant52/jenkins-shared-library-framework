@@ -1,0 +1,19 @@
+// Example consumer Jenkinsfile.
+//
+// The `@Library` annotation loads the shared library that has been registered
+// in Jenkins under "Manage Jenkins > System > Global Pipeline Libraries" with
+// the name `jenkins-shared-library-framework`. The trailing underscore imports
+// the library's global vars into scope.
+@Library('jenkins-shared-library-framework') _
+
+// The simplest possible usage: hand the opinionated pipeline a bit of config
+// and let it drive checkout, tests, image build and deploy.
+standardPipeline(
+    appName:      'payments-api',
+    registry:     'registry.example.com',
+    buildTool:    'gradle',
+    slackChannel: '#deployments',
+    deployBranch: 'main',
+    deployEnv:    'production',
+    coverage:     true
+)

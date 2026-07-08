@@ -1,0 +1,11 @@
+<p>
+  <code>semanticVersion</code> derives a SemVer-style version string from git tag
+  history: the latest tag, plus commit distance and short SHA when the current
+  commit is ahead of that tag.
+</p>
+
+<p><strong>Usage</strong></p>
+<pre>
+def version = semanticVersion(prefix: 'v')
+echo "Version is ${version}"   // e.g. 1.4.0-3+abc1234
+</pre>

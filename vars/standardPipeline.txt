@@ -1,0 +1,20 @@
+<p>
+  <code>standardPipeline</code> provides a complete, opinionated declarative
+  pipeline covering checkout, unit tests, image build and optional deploy.
+</p>
+
+<p><strong>Usage</strong></p>
+<pre>
+standardPipeline(
+    appName:      'payments-api',
+    registry:     'registry.example.com',
+    slackChannel: '#deployments',
+    deployBranch: 'main',
+    deployEnv:    'production'
+)
+</pre>
+
+<p>
+  All keys are optional except <code>appName</code>. Overrides are merged onto
+  the defaults defined in <code>org.acme.jenkins.Config</code>.
+</p>

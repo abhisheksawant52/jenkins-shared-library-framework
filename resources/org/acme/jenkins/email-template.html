@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Build ${status}: ${appName}</title>
+  </head>
+  <body style="font-family: Arial, Helvetica, sans-serif; color: #24292e;">
+    <h2 style="color: ${color};">Build ${status}</h2>
+    <table cellpadding="6" cellspacing="0" style="border-collapse: collapse;">
+      <tr><td><strong>Application</strong></td><td>${appName}</td></tr>
+      <tr><td><strong>Version</strong></td><td>${version}</td></tr>
+      <tr><td><strong>Branch</strong></td><td>${branch}</td></tr>
+      <tr><td><strong>Build</strong></td><td>#${buildNumber}</td></tr>
+    </table>
+    <p style="margin-top: 16px;">
+      <a href="${buildUrl}" style="color: #0366d6;">View the build in Jenkins</a>
+    </p>
+    <hr />
+    <p style="font-size: 12px; color: #6a737d;">
+      Sent by the Jenkins Shared Library Framework.
+    </p>
+  </body>
+</html>

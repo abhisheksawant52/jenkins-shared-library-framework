@@ -1,0 +1,53 @@
+// Advanced example: composing the individual library steps by hand instead of
+// using the all-in-one standardPipeline. Useful when a project needs a bespoke
+// stage graph but still wants the shared building blocks.
+@Library('jenkins-shared-library-framework') _
+
+pipeline {
+    agent any
+
+    environment {
+        REGISTRY = 'registry.example.com'
+        APP      = 'orders-service'
+    }
+
+    stages {
+        stage('Test') {
+            steps {
+                runUnitTests(tool: 'maven', coverage: true)
+            }
+        }
+
+        stage('Version') {
+            steps {
+                script {
+                    env.VERSION = semanticVersion(prefix: 'v')
+                    echo "Resolved version ${env.VERSION}"
+                }
+            }
+        }
+
+        stage('Package') {
+            steps {
+                script {
+                    buildDockerImage(
+                        image:         "${REGISTRY}/${APP}",
+                        tag:           "${env.VERSION}",
+                        push:          true,
+                        credentialsId: 'registry-creds'
+                    )
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            notifySlack(
+                channel: '#ci',
+                status:  currentBuild.currentResult,
+                message: "${APP} ${env.VERSION} finished: ${currentBuild.currentResult}"
+            )
+        }
+    }
+}

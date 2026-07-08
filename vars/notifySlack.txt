@@ -1,0 +1,20 @@
+<p>
+  <code>notifySlack</code> posts a colour-coded build status message to Slack via
+  an incoming webhook. The payload is rendered from the bundled
+  <code>slack-message.json</code> resource template.
+</p>
+
+<p><strong>Usage</strong></p>
+<pre>
+notifySlack(
+    channel:       '#deployments',
+    status:        'SUCCESS',
+    message:       'payments-api 1.4.0 deployed',
+    credentialsId: 'slack-webhook'
+)
+</pre>
+
+<p>
+  The webhook URL is read from a Jenkins <em>Secret text</em> credential named by
+  <code>credentialsId</code> (default <code>slack-webhook</code>).
+</p>

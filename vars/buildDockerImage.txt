@@ -1,0 +1,19 @@
+<p>
+  <code>buildDockerImage</code> builds a Docker image and optionally logs in to a
+  registry and pushes it.
+</p>
+
+<p><strong>Usage</strong></p>
+<pre>
+buildDockerImage(
+    image:         'registry.example.com/payments-api',
+    tag:           '1.4.0',
+    dockerfile:    'Dockerfile',
+    push:          true,
+    credentialsId: 'registry-creds'
+)
+</pre>
+
+<p>
+  Returns the fully-qualified <code>image:tag</code> reference that was built.
+</p>

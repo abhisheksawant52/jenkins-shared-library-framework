@@ -1,0 +1,21 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-merge-conflict
+      - id: check-added-large-files
+
+  # Optional: lint Groovy with npm-groovy-lint. Requires Node.js + the
+  # npm-groovy-lint package on PATH, so it is wired as a manual local hook.
+  # Run explicitly with: pre-commit run npm-groovy-lint --hook-stage manual
+  - repo: local
+    hooks:
+      - id: npm-groovy-lint
+        name: npm-groovy-lint
+        entry: npm-groovy-lint
+        language: system
+        files: '\.(groovy|Jenkinsfile)$'
+        stages: [manual]

@@ -1,0 +1,20 @@
+{
+  "channel": "${channel}",
+  "username": "Jenkins",
+  "icon_emoji": ":jenkins:",
+  "attachments": [
+    {
+      "color": "${color}",
+      "title": "Build ${status}",
+      "text": "${message}",
+      "footer": "Jenkins Shared Library Framework",
+      "actions": [
+        {
+          "type": "button",
+          "text": "Open Build",
+          "url": "${buildUrl}"
+        }
+      ]
+    }
+  ]
+}
